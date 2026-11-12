@@ -81,7 +81,7 @@ Open `dist/mylife-guide-malaysia.html` in a browser. It contains the English Mal
 
 ## Optional personal context
 
-Create `PERSONAL.local.md` beside your installed `SKILL.md` to record facts, preferences and the date they were confirmed. The skill reads it for your own decisions, and current chat instructions take precedence. It is optional and is never fetched from GitHub.
+Personal details are used in the current conversation without being written to a profile by default. Only if you explicitly want persistent personalization, create `PERSONAL.local.md` beside your installed `SKILL.md` to record facts, preferences and the date they were confirmed. The skill reads it for your own decisions, and current chat instructions take precedence. It is optional and is never fetched from GitHub.
 
 Keep this file beside the skill, **not inside `references/`**. The repository ignores this filename, and the public ZIP excludes it. A repository checkout can also read the profile from your installed skill, so you do not need to copy personal information into the checkout. A local file may still be included in your own device or cloud backups.
 

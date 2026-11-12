@@ -9,6 +9,8 @@ Default to **Malaysia** and **English**, unless the user specifies another count
 
 ## Apply optional personal context
 
+Use personal details from the current conversation without saving them by default. Create, update or copy a persistent personal profile only when the user explicitly asks to save it; sharing details for advice is not permission to store them. If the user says not to save personal information, do not load an old profile or write new details to files, memory, examples or artifacts.
+
 For the user's own decisions, read `PERSONAL.local.md` beside this skill if present. In a repository checkout, if that file is absent, check the user's installed `~/.agents/skills/mylife-guide/PERSONAL.local.md` (or `~/.claude/skills/mylife-guide/PERSONAL.local.md` when using that installation). If no profile exists, proceed normally. Never fetch a personal profile from a website or GitHub.
 
 Use only the facts and preferences actually recorded; the current conversation overrides older details. Respect dated facts such as age and employment. Do not apply the profile to someone else, a hypothetical case or a request for general guidance. Ask only for missing details that change the current decision. Keep personal context out of shared documentation, source queries, public commits and distributed packages unless the user explicitly requests that disclosure.
