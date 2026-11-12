@@ -72,6 +72,8 @@ const stamp = buildStamp();
 const referenceRoot = `skills/${NAME}/references`;
 function markdownFiles(directory) {
   return readdirSync(resolve(ROOT, directory), { withFileTypes: true })
+    // Exclude the optional private profile even if it was misplaced here.
+    .filter(entry => entry.name !== 'PERSONAL.local.md')
     .sort((a, b) => a.name.localeCompare(b.name))
     .flatMap(entry => entry.isDirectory()
       ? markdownFiles(`${directory}/${entry.name}`)

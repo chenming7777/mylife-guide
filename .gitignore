@@ -2,3 +2,6 @@
 .junie/
 node_modules/
 dist/
+
+# Personal context stays out of the shared repository and release packages.
+**/PERSONAL.local.md

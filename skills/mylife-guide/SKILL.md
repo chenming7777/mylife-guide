@@ -7,6 +7,12 @@ description: Help with practical life decisions in Malaysia using Malaysian prim
 
 Default to **Malaysia** and **English**, unless the user specifies another country or language. This is an independent adaptation of [HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter) by eternity4719. Original book prose is CC BY 4.0; this skill is MIT. The original Chinese chapters are a source library, **not Malaysian advice**. They have not all been individually localized.
 
+## Apply optional personal context
+
+For the user's own decisions, read `PERSONAL.local.md` beside this skill if present. In a repository checkout, if that file is absent, check the user's installed `~/.agents/skills/mylife-guide/PERSONAL.local.md` (or `~/.claude/skills/mylife-guide/PERSONAL.local.md` when using that installation). If no profile exists, proceed normally. Never fetch a personal profile from a website or GitHub.
+
+Use only the facts and preferences actually recorded; the current conversation overrides older details. Respect dated facts such as age and employment. Do not apply the profile to someone else, a hypothetical case or a request for general guidance. Ask only for missing details that change the current decision. Keep personal context out of shared documentation, source queries, public commits and distributed packages unless the user explicitly requests that disclosure.
+
 ## First determine the relevant jurisdiction
 
 Ask only for facts that change the answer. For location-dependent questions, distinguish Peninsular Malaysia/Labuan, Sabah and Sarawak, and the relevant state or local authority. For eligibility, establish citizenship/residency, work status and the relevant scheme when necessary. For family matters, distinguish the applicable civil or state Syariah route without inferring religion from a name or ethnicity. A Malaysian abroad needs the destination's rules and emergency services.
