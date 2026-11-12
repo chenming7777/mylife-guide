@@ -16,7 +16,7 @@ The reference text remains in Chinese and retains its mainland-China policy cont
 
 ## Install from GitHub
 
-Once the public repository is published:
+Install the instructions from this public repository:
 
 ```bash
 mkdir -p ~/.agents/skills/mylife-guide && curl -fsSL -o ~/.agents/skills/mylife-guide/SKILL.md "https://raw.githubusercontent.com/chenming7777/mylife-guide/main/skills/mylife-guide/SKILL.md"
@@ -165,7 +165,7 @@ AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担
 - **想打印或在手机上翻**：下载 [PDF](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.pdf)，A4 排版、两百多页，带目录页码和书签，每节另起一页。
 - **想在 Kindle 或其他阅读器上读**：下载 [EPUB 电子书](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.epub)，Kindle 用 Send to Kindle 发过去即可。
 - **想记住、隔几天复习一遍**：下载 [Anki 牌组](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.apkg)，用 Anki 打开就导入。一条一张卡，按节分成子牌组。正面是建议，背面是说人话、成本和证据等级。可以只学其中几节，也可以按「性价比极高」这类标签筛。以后重新下载再导入一次，卡片内容会更新，复习记录不丢。
-- **这四样都是正文每次更新后自动重新生成的**，下载链接固定不变；转发出去的那一份不会跟着更新，以在线版为准。
+- **本衍生仓库的四种下载需维护者手动运行发布工作流后才可用**，下载链接固定不变；转发出去的那一份不会跟着更新。也可以按下面的命令在本地生成。
 - **看不懂那串数字**：每条都有一行「说人话」。它把「收益」栏里那些研究里的写法，翻成「同期死亡的概率低约两成」「拘留几日、罚多少钱」这样的日常说法。它只用「收益」栏已经写到的内容，不添新数字。只看这一行就够拿主意。「收益」栏里原样留着全部数字，想自己核对就看那一栏。
 - **只想看结论最硬的**：在检索页里勾选证据等级 A，只留下有具体数字、来自荟萃分析或大型试验的 497 条。
 - **只想看最值得做的**：勾选性价比「极高」，得到 123 条不花钱、用时少、不需要毅力，收益又落在最大一档的条目。再叠加一个「换回什么」，就是该口径下的优先清单。
@@ -191,13 +191,13 @@ AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担
 
 ```bash
 git clone https://github.com/chenming7777/mylife-guide.git
-cd HowToLiveBetter
+cd mylife-guide
 python -m http.server 8000
 ```
 
 然后浏览器开 `http://localhost:8000/`。检索页是纯静态的，`README.md` 和 `book/` 就是它的数据，没有后端、没有数据库、不用装依赖；把整个目录丢给任何静态服务器（Nginx、GitHub Pages、对象存储）效果一样。注意 `index.html` 必须经 http 打开，直接双击本地文件会空白——浏览器不许网页读本地文件，那种场景请用上面的离线单文件版。
 
-想自己生成这四样（平时用不着，Release 里的就是自动生成的）。下面的命令都在仓库根目录（`HowToLiveBetter/`）运行：
+想自己生成这四样，下面的命令都在仓库根目录（`mylife-guide/`）运行。也可以在 Actions 页手动运行发布工作流：
 
 ```bash
 npm --prefix tools/epub ci                 # 安装 EPUB 依赖
