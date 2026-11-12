@@ -1,12 +1,10 @@
 ---
 name: mylife-guide
-description: 用《高性价比人生指南》的正文回答具体的人生决策：该不该做、值不值、怎么选、出事了先做什么、能领哪笔钱、这么干犯不犯法。先把相关条目查出来再答，按成本（钱/时间/毅力）、收益量级和证据等级 A/B/C 排序，每条都注明出自第几节第几条。触发词：该不该、值不值、要不要、划不划算、怎么选、帮我决定、这样犯法吗、能领什么、先做什么、性价比。
+description: Help with practical life decisions in Malaysia using Malaysian primary sources, local eligibility and explicit evidence limits. Use for health access, work, money, benefits, family, consumer rights, digital safety and travel.
 ---
 
-规则的正本在仓库里的 `skills/mylife-guide/SKILL.md`，两个工具共用一份，这里不复制一遍免得两边不一致。
+# MyLife Guide Malaysia
 
-**先读 `skills/mylife-guide/SKILL.md`（相对仓库根目录），然后完全照它执行。** 读不到那个文件就现取：
+Read the canonical `skills/mylife-guide/SKILL.md` relative to the repository root, then its relevant `references/malaysia-*.md` files. The original Chinese book is an evidence library, not Malaysian legal, benefit or medical guidance. Default to Malaysia and English unless the user requests otherwise.
 
-```bash
-curl -fsSL --compressed "https://raw.githubusercontent.com/chenming7777/mylife-guide/main/skills/mylife-guide/SKILL.md"
-```
+If the repository is unavailable, retrieve the canonical skill from `https://raw.githubusercontent.com/chenming7777/mylife-guide/malaysia-edition/skills/mylife-guide/SKILL.md` and follow its reference-retrieval instructions. Do not substitute mainland-China rules when a Malaysian reference is missing.

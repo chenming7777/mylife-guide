@@ -1,42 +1,66 @@
-# MyLife Guide skill (`mylife-guide`)
+# MyLife Guide Malaysia skill (`mylife-guide`)
 
-Search the included Chinese reference book before answering practical life decisions. Give the chapter and entry number, costs, benefits and evidence grade. The skill can answer in the user's language; the source book itself has not been translated.
+Answer practical life questions in English using Malaysian primary sources. The skill covers health access, family care, work, benefits, money, education, legal help, consumer rights, digital safety and travel. It checks relevant state and eligibility differences and uses actual RM costs.
+
+The 32 Malaysian reference entries are a starting point, not a full translation or individual validation of the original 772-entry Chinese book. The original book remains a separate evidence library. See [scope and audit](../../malaysia/README.md) and the complete [skill instructions](SKILL.md).
 
 Adapted from [eternity4719/HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter). See [attribution](../../ATTRIBUTION.md), [CC BY 4.0 text license](../../LICENSE) and [MIT code license](../../LICENSE-CODE).
 
 ## Use this local repository
 
-Open the repository folder in your assistant and ask it to use `skills/mylife-guide/SKILL.md`. Codex is routed there by `AGENTS.md`; Claude Code has a wrapper in `.claude/skills/mylife-guide/`.
+Clone the Malaysia branch, or use your existing checkout on that branch:
 
-Example: “Use MyLife Guide to help me decide whether a two-hour daily commute is worth it. Cite the relevant entries.”
+```bash
+git clone --branch malaysia-edition https://github.com/chenming7777/mylife-guide.git
+cd mylife-guide
+```
+
+Open the folder in your assistant and ask it to use `skills/mylife-guide/SKILL.md`. Codex is routed there by `AGENTS.md`; Claude Code has a wrapper in `.claude/skills/mylife-guide/`.
+
+Example: “Use $mylife-guide. I work in Sabah and was dismissed yesterday. What should I check first?”
 
 ## Install the complete offline skill (recommended)
 
-Run from the repository root with Node.js installed:
+Run from the repository root with Node.js installed. On Windows, this backs up an existing installation before updating it:
 
 ```powershell
+node tools/malaysia/audit.mjs --check
+if ($LASTEXITCODE -ne 0) { throw 'Audit check failed' }
 node tools/skill/build.mjs
-$skillDirectory = Join-Path $env:USERPROFILE '.agents/skills'
-New-Item -ItemType Directory -Force -Path $skillDirectory | Out-Null
-Expand-Archive -LiteralPath './dist/mylife-guide.zip' -DestinationPath $skillDirectory
+if ($LASTEXITCODE -ne 0) { throw 'Skill build failed' }
+$skillRoot = Join-Path $env:USERPROFILE '.agents/skills'
+$installedSkill = Join-Path $skillRoot 'mylife-guide'
+if (Test-Path -LiteralPath $installedSkill) {
+    $backupPath = Join-Path (Get-Location) ('dist/mylife-guide-backup-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.zip')
+    Compress-Archive -LiteralPath $installedSkill -DestinationPath $backupPath -ErrorAction Stop
+}
+New-Item -ItemType Directory -Force -Path $skillRoot -ErrorAction Stop | Out-Null
+Expand-Archive -LiteralPath './dist/mylife-guide.zip' -DestinationPath $skillRoot -Force -ErrorAction Stop
 ```
 
-If `mylife-guide` is already installed, back it up before replacing it. On macOS/Linux:
+On macOS/Linux:
 
 ```bash
+(
+set -e
+node tools/malaysia/audit.mjs --check
 node tools/skill/build.mjs
 mkdir -p ~/.agents/skills
-unzip -n dist/mylife-guide.zip -d ~/.agents/skills
+if [ -d ~/.agents/skills/mylife-guide ]; then
+  tar -czf "dist/mylife-guide-backup-$(date +%Y%m%d-%H%M%S).tar.gz" -C ~/.agents/skills mylife-guide
+fi
+unzip -o dist/mylife-guide.zip -d ~/.agents/skills
+)
 ```
 
-Restart your assistant or open a new chat and invoke `$mylife-guide`. For Claude Code, use `~/.claude/skills` instead. The ZIP contains `SKILL.md`, both licenses, attribution, all book chapters, reference essays, and a generated search index. Rebuild and reinstall it to update the snapshot. To put `SKILL.md` at the ZIP root for another platform, use `node tools/skill/build.mjs --flat`.
+Open a new chat and invoke `$mylife-guide`. For Claude Code, use `~/.claude/skills` instead. The ZIP contains the instructions, all four Malaysian reference files, the entry audit, both licenses, attribution, the original chapters and essays, and their search index. Rebuild and reinstall to update the saved snapshot. For a ZIP with `SKILL.md` at its root, use `node tools/skill/build.mjs --flat`.
 
 ## Install only the skill instructions from GitHub
 
-This small installation fetches the book when needed unless you are already inside the local repository. It requires the public repository to have been published.
+This smaller installation needs internet to retrieve Malaysian references when a local copy is unavailable. It does not provide offline coverage by itself.
 
 ```bash
-mkdir -p ~/.agents/skills/mylife-guide && curl -fsSL -o ~/.agents/skills/mylife-guide/SKILL.md "https://raw.githubusercontent.com/chenming7777/mylife-guide/main/skills/mylife-guide/SKILL.md"
+mkdir -p ~/.agents/skills/mylife-guide && curl -fsSL -o ~/.agents/skills/mylife-guide/SKILL.md "https://raw.githubusercontent.com/chenming7777/mylife-guide/malaysia-edition/skills/mylife-guide/SKILL.md"
 ```
 
 Windows PowerShell:
@@ -44,19 +68,21 @@ Windows PowerShell:
 ```powershell
 $skillDirectory = Join-Path $env:USERPROFILE '.agents/skills/mylife-guide'
 New-Item -ItemType Directory -Force -Path $skillDirectory | Out-Null
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/chenming7777/mylife-guide/main/skills/mylife-guide/SKILL.md' -OutFile (Join-Path $skillDirectory 'SKILL.md')
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/chenming7777/mylife-guide/malaysia-edition/skills/mylife-guide/SKILL.md' -OutFile (Join-Path $skillDirectory 'SKILL.md')
 ```
+
+## Read without an assistant
+
+```bash
+node tools/malaysia/build.mjs
+```
+
+Open `dist/mylife-guide-malaysia.html` in a browser. It contains the English Malaysian references and chapter routes. Source links need internet. `node tools/offline/build.mjs` separately builds the original Chinese source library as `dist/mylife-guide.html`.
 
 ## Sources and limits
 
-The source text is written for mainland China. Confirm the user's jurisdiction for laws, benefits and help channels. Distinguish the book's dated claims from current official information. The skill's complete workflow is in [SKILL.md](SKILL.md).
+Stored references show when sources were checked. Eligibility, rates, deadlines, fees and contact hours can change; verify them with current official sources before acting. When offline, the assistant must distinguish the saved reference from a current confirmation and explain unresolved conflicts. It must not fill a gap with a Chinese legal rule or benefit.
 
-When no bundled or local book is present:
-
-```bash
-git clone --depth 1 https://github.com/chenming7777/mylife-guide.git "${TMPDIR:-/tmp}/mylife-guide"
-```
-
-If the text cannot be retrieved, say so rather than inventing claims. The book does not replace professional medical, legal or accounting advice.
+The guide supports decisions; it does not replace individual medical care, legal representation or regulated financial advice. Contribute source corrections or new topics through the [Malaysia contribution guide](../../malaysia/CONTRIBUTING.md).
 
 Codex skill locations: [official OpenAI documentation](https://developers.openai.com/codex/skills/).

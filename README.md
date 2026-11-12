@@ -1,41 +1,51 @@
-# MyLife Guide
+# MyLife Guide Malaysia
 
-Your local life-reference library and `mylife-guide` assistant skill, derived from [HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter) by **eternity4719**. This is an independent adaptation, not an official edition.
+An English reference guide and `mylife-guide` assistant skill for practical decisions in Malaysia, derived from [HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter) by **eternity4719**. This is an independent adaptation, not an official edition.
 
-**Start here:** [Use or install the skill](skills/mylife-guide/README.md) · [Attribution and changes](ATTRIBUTION.md) · [Book contents](#目录)
+**Start here:** [Malaysia guide](malaysia/README.md) · [Install the skill](skills/mylife-guide/README.md) · [Review findings](malaysia/AUDIT.md) · [Contribute](malaysia/CONTRIBUTING.md) · [Attribution](ATTRIBUTION.md)
+
+The Malaysia edition lives on the **`malaysia-edition` branch**. It includes 32 locally sourced reference entries, covering health and family, work and money, law, digital safety and travel. It defaults to Malaysia and English, checks relevant citizenship and state differences, and separates Malaysian rules from the original book's research.
+
+The audit inventories all 772 original entries and flags 623 for country-specific review. This is a Malaysia-first reference edition, **not a complete English translation or individual validation of all 772 entries**. See [coverage and remaining work](malaysia/README.md).
 
 ## Use it locally
 
 Open this folder in Codex or Claude Code and ask:
 
-> Use MyLife Guide to help me decide whether a two-hour daily commute is worth it. Cite the book's chapter and entry numbers.
+> Use $mylife-guide. I work in Sabah and was dismissed yesterday. What should I check and who should I contact?
 
-For an offline skill that works from other projects, build `dist/mylife-guide.zip` with `node tools/skill/build.mjs`, then follow the [installation instructions](skills/mylife-guide/README.md). To read and search the book in a browser without a server, run `node tools/offline/build.mjs` and open `dist/mylife-guide.html`.
+Build the English offline guide and complete skill with Node.js:
 
-The reference text remains in Chinese and retains its mainland-China policy context. The assistant can answer in your language and must confirm the relevant country or region before applying local rules.
+```bash
+node tools/malaysia/audit.mjs --check
+node tools/malaysia/build.mjs
+node tools/skill/build.mjs
+```
+
+Open `dist/mylife-guide-malaysia.html` in a browser. For the skill, install `dist/mylife-guide.zip` using the [full installation instructions](skills/mylife-guide/README.md#install-the-complete-offline-skill-recommended). The package includes the Malaysian references and the original Chinese evidence library. Offline references are dated snapshots; current rules need checking with the responsible agency.
 
 ## Install from GitHub
 
-Install the instructions from this public repository:
+Clone this edition:
 
 ```bash
-mkdir -p ~/.agents/skills/mylife-guide && curl -fsSL -o ~/.agents/skills/mylife-guide/SKILL.md "https://raw.githubusercontent.com/chenming7777/mylife-guide/main/skills/mylife-guide/SKILL.md"
+git clone --branch malaysia-edition https://github.com/chenming7777/mylife-guide.git
+cd mylife-guide
 ```
 
-This downloads the instructions only. The [offline installation](skills/mylife-guide/README.md#install-the-complete-offline-skill-recommended) also includes the book. Invoke `$mylife-guide` in a new Codex chat after installation.
-
-## Publishing and updates
-
-The separate repository is `chenming7777/mylife-guide`; `upstream` points to the original project. Push local changes to `origin`. Ebook releases run manually from the **Actions** tab. GitHub Pages links require enabling Pages for branch `main`, root `/`; local use works without Pages or a release.
-
-If GitHub setup has not completed, create an empty `mylife-guide` repository in your account, then run:
+Or install only the skill instructions:
 
 ```bash
-git remote add origin https://github.com/chenming7777/mylife-guide.git
-git push -u origin main
+mkdir -p ~/.agents/skills/mylife-guide && curl -fsSL -o ~/.agents/skills/mylife-guide/SKILL.md "https://raw.githubusercontent.com/chenming7777/mylife-guide/malaysia-edition/skills/mylife-guide/SKILL.md"
 ```
 
-If `origin` already exists, use `git remote set-url origin https://github.com/chenming7777/mylife-guide.git` instead of adding it. Do not push to `upstream`.
+The small installation needs internet to retrieve the Malaysian reference files when no local copy is available. Invoke `$mylife-guide` in a new chat after installation.
+
+## Updates and contributing back
+
+Malaysia changes belong in `chenming7777/mylife-guide:malaysia-edition`. The original author's project remains the upstream source. Original Chinese ebook releases and browser pages are preserved separately; building them does not produce an English Malaysia edition.
+
+The genuine [HowToLiveBetter fork](https://github.com/chenming7777/HowToLiveBetter) and separate `HowToLiveBetter-contrib` checkout are for focused upstream contributions. See the [contribution guide](malaysia/CONTRIBUTING.md). Keep Malaysia-specific defaults here and propose an attributed derivative listing upstream, following the author's contribution rules.
 
 ## Original reference guide
 
@@ -67,7 +77,7 @@ The adapted navigation and original Chinese guide follow. Original community, do
 
 ### [打开在线检索页](https://chenming7777.github.io/mylife-guide/) · [让 AI 照书回答（skill）](skills/mylife-guide/README.md)
 
-AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担保签不签」，它先查书里的条目再回答，并注明出自第几节第几条。
+本衍生版的 AI 助手 skill 支持 Claude Code 和 Codex，默认用英文回答马来西亚生活问题。涉及当地规则时先查马来西亚资料；原书条目只作为保留出处的研究参考。详见上方 Malaysia guide。
 
 <table>
 <tr><td align="right"><b>下载</b></td><td align="left">
@@ -367,7 +377,7 @@ A 级只说明「有具体数字、出处可核」，不说明这个数字一定
 - 附上许可证链接 https://creativecommons.org/licenses/by/4.0/ 。
 - 改过内容的要写明改过。书里的法条、补贴标准和截止日期经常更新，建议同时写上你同步的是哪一天的版本。
 
-代码用 [MIT](LICENSE-CODE)，范围是 tools/、skills/、index.html 和 .github/。
+代码及技能流程用 [MIT](LICENSE-CODE)，范围是 tools/、skills/、index.html 和 .github/；其中新增的 `skills/mylife-guide/references/malaysia-*.md` 参考正文，以及 `malaysia/` 下的说明文字，用 CC BY 4.0。详见 [ATTRIBUTION.md](ATTRIBUTION.md)。
 
 ## 原项目 Star 走势
 

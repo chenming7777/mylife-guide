@@ -11,10 +11,21 @@ It is not an official edition and does not imply endorsement by the original aut
 ## Licenses
 
 - Book text (`book/`, `docs/`, and README prose): **Creative Commons Attribution 4.0 International**, retained in [LICENSE](LICENSE). License: https://creativecommons.org/licenses/by/4.0/ .
-- Code (`tools/`, `skills/`, `index.html`, and `.github/`): **MIT**, retained in [LICENSE-CODE](LICENSE-CODE), including `Copyright (c) 2026 eternity4719`.
+- Malaysian guide/reference prose (`malaysia/*.md` and `skills/mylife-guide/references/malaysia-*.md`): **CC BY 4.0**; changes are described below.
+- Code and skill workflow instructions (`tools/`, `skills/` except the reference prose above, `index.html`, and `.github/`): **MIT**, retained in [LICENSE-CODE](LICENSE-CODE), including `Copyright (c) 2026 eternity4719`.
 - Original source citations, author credits, and third-party notices remain attached to the inherited material.
 
 ## Changes in this derivative
+
+### Malaysia edition — 2026-11-12
+
+- Added an English Malaysia-first skill and 32 Malaysian service/source reference entries, with local jurisdiction, eligibility, retrieval dates and unresolved-source conflicts.
+- Inventoried all 772 original entries; automated markers identify 623 review candidates. This is triage, not individual validation of the original entries for Malaysia.
+- Preserved the original book and essays as Chinese source material. No original clinical study, law or amount has been relabeled as Malaysian.
+- Added an English offline Malaysia guide, an audit and upstream contribution instructions; packaged the Malaysian material alongside the source library.
+- Newly authored Malaysian guide/reference prose is CC BY 4.0. Skill workflow instructions and build tools remain MIT. Government sources are linked and paraphrased, not presented as endorsements.
+
+### Initial renamed edition
 
 - Renamed the repository and skill to `mylife-guide`, including the Claude wrapper and all active skill references.
 - Added English local-use and installation instructions; updated active repository, site, and build links and artifact names.

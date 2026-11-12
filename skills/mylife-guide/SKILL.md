@@ -1,133 +1,66 @@
 ---
 name: mylife-guide
-description: 用《高性价比人生指南》(github.com/chenming7777/mylife-guide) 的正文回答具体的人生决策：该不该做、值不值、怎么选、出事了先做什么、能领哪笔钱、这么干犯不犯法。先把相关条目查出来再答，按成本（钱/时间/毅力）、收益量级和证据等级 A/B/C 排序，每条都注明出自第几节第几条。触发词：该不该、值不值、要不要、划不划算、怎么选、帮我决定、这样犯法吗、能领什么、先做什么、性价比。
+description: Help with practical life decisions in Malaysia using Malaysian primary sources and a clearly separated evidence library. Use for health access, emergencies, work, money, benefits, housing, family, education, consumer rights, digital safety, or travel decisions. Compare costs, benefits, eligibility and uncertainty; do not apply mainland-China rules to Malaysia.
 ---
 
-# MyLife Guide：按《高性价比人生指南》查了再答
+# MyLife Guide — Malaysia
 
-本 skill 由 [eternity4719/HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter) 的 life-decision-guide 改编，原作者 eternity4719，代码许可 MIT。改名及本地使用适配：2026-11-12。正文许可 CC BY 4.0，出处及改动见仓库 ATTRIBUTION.md。
+Default to **Malaysia** and **English**, unless the user specifies another country or language. This is an independent adaptation of [HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter) by eternity4719. Original book prose is CC BY 4.0; this skill is MIT. The original Chinese chapters are a source library, **not Malaysian advice**. They have not all been individually localized.
 
-**地区和语言**：原书以中国大陆的制度为背景。涉及法律、医保、补贴或求助渠道时，先确认用户所在国家或地区；不要把中国大陆规则套用到其他地区。按用户使用的语言回答，保留原文节号、条号和来源。
+## First determine the relevant jurisdiction
 
-## 这个 skill 干什么
+Ask only for facts that change the answer. For location-dependent questions, distinguish Peninsular Malaysia/Labuan, Sabah and Sarawak, and the relevant state or local authority. For eligibility, establish citizenship/residency, work status and the relevant scheme when necessary. For family matters, distinguish the applicable civil or state Syariah route without inferring religion from a name or ethnicity. A Malaysian abroad needs the destination's rules and emergency services.
 
-有人问一件具体的人生事情该怎么办，先去《高性价比人生指南》里把相关条目查出来，再按书里的算账方式排好序回答。
+Do not turn China-specific yuan amounts, laws, court timelines, benefits, medicine instructions, hotlines, residency rules or insurance schemes into Malaysian claims. Currency conversion does not localize a benefit, cost estimate or legal threshold.
 
-**没查到就别答。** 回答里的每个数字、每条法条、每个结论都要能指回某一条正文；指不回去，就直说书里没写，可以给常识判断，但要标明那是常识不是书里的内容。不要凭记忆补数字、补 DOI、补法条条款号。
+## Urgent situations come before comparisons
 
-书把要换回的东西分成四样：寿命、时间与精力、金钱、人身自由。**四样分开算，不互相折算**——「总死亡率降 12%」和「每年省 500 元」不在一把尺子上。
+- For immediate danger or a medical emergency in Malaysia, use the Malaysian emergency pathway in `references/malaysia-health.md`, including its official source. Do not delay basic emergency direction to search the book or ask a long questionnaire. If outside Malaysia, use the person's current location.
+- For suicidal distress, respond supportively and prioritize immediate safety. Use the environment's dedicated helpline lookup when available before giving a suicide/self-harm helpline; otherwise verify a current local support resource through an appropriate official source. Do not import a Chinese crisis number or assume a helpline's hours. Avoid judgment or cost-benefit analysis of the person's life.
+- For arrest, detention, a court deadline or a live legal dispute, use the Malaysian legal-aid/counsel route in `references/malaysia-law-digital.md`. Do not quote Chinese criminal procedure, lawsuit duration or fee rules.
 
-## 第 0 步：先看要不要马上停下
+## Read Malaysian references first
 
-- **正在发生的急症**（倒地没呼吸、大出血、火灾、溺水、触电、中毒、卒中或心梗的症状）：先提示联系当地急救或消防服务，再给适用的现场第一步；参考第 13 节，别先讲性价比。求助号码须按用户所在地核实，不要默认中国大陆。
-- **提到自杀念头、活不下去**：先以支持和不评判的方式回应，优先关注眼前安全；求助渠道按用户所在地用当前可用的官方渠道或专用工具核实。第 1 节和第 29 节只作为补充，不能把别的地区的热线直接套用。
-- **正在进行的法律程序**（已被传唤、已被拘留、已被起诉）：先指第 8 节对应条目，并说明书只给通用口径，个案要找律师。
-- 其余情况，照下面的步骤走。
+Read `references/malaysia-routing.md`, then the relevant topic file:
 
-## 第 1 步：把正文拿到手
+| Reference | Use for |
+| --- | --- |
+| `references/malaysia-health.md` | Emergencies, healthcare access, medicine checks, mental health, family care, births/deaths, disability and welfare referrals |
+| `references/malaysia-work-money.md` | Employment, wages, job loss, EPF/KWSP, PERKESO, tax, banking, debt, business, housing and education |
+| `references/malaysia-law-digital.md` | Legal aid, civil/Syariah scope, consumer disputes, privacy, cyber incidents, immigration, travel and students |
 
-下面三种情况按顺序看，对上哪种就用哪种。后面的命令都在「正文根目录」下跑，也就是有 `README.md` 和 `book/` 的那个目录。
+The references record **access dates**, not a promise that a rule remains current. Prefer the responsible Malaysian agency's current official publication and operative legislation. Recheck amounts, deadlines, fees, eligibility, phone hours and legal or clinical claims when answering. If sources conflict or omit the user's circumstances, name the gap and direct them to the responsible agency instead of choosing a convenient value.
 
-**随包自带**：这份 SKILL.md 旁边有 `references/book/`，正文根目录就是 `references/`，不用联网。下面说的 `README.md` 是 `references/README.md`，不是包根上那份安装说明。`references/VERSION.txt` 写着这份正文是哪天打的包，答复里涉及金额、时限、名单时把这个日期带上。
+When offline, distinguish a dated stored reference from current verification. Give only what that reference supports and a next step for checking it. Do not invent a Malaysian equivalent when the source library has no verified one.
 
-**本地仓库**：当前目录或上级目录里有 `README.md` 和 `book/01-不要早死.md`，正文根目录就是它，直接读。
+### If the reference files are missing
 
-**远程**：都没有就现取。浅克隆一次最省事，后面所有命令都能照常用：
-
-```bash
-git clone --depth 1 https://github.com/chenming7777/mylife-guide.git "${TMPDIR:-/tmp}/mylife-guide"
-```
-
-不能用 git 时按文件取（文件名里的中文直接写就行）：
+An instruction-only installation may contain just this file. Read the corresponding files under `skills/mylife-guide/references/` in the local `mylife-guide` repository. Otherwise retrieve the full repository:
 
 ```bash
-curl -fsSL --compressed "https://raw.githubusercontent.com/chenming7777/mylife-guide/main/book/02-不要慢慢死.md"
+git clone --depth 1 --branch malaysia-edition https://github.com/chenming7777/mylife-guide.git "${TMPDIR:-/tmp}/mylife-guide"
 ```
 
-这两条都走不通，就说明取不到正文，如实告诉用户，不要凭印象复述书的内容。
+If that destination already exists, inspect it rather than overwriting it. A raw reference can also be retrieved from `https://raw.githubusercontent.com/chenming7777/mylife-guide/malaysia-edition/skills/mylife-guide/references/` followed by the exact filename above. If retrieval fails, say which evidence is unavailable; use a verified official source if accessible, otherwise leave the claim unresolved. Do not fall back to Chinese rules.
 
-## 第 2 步：定位到节
+## Use the original book only for transferable evidence
 
-先挑 1 到 3 节：读正文根目录 `README.md` 里「这本书想回答的问题」那张表（一节一行，写明这一节回答什么问题，并带着 `book/` 下对应的文件名），按用户问的事对上号。节的增删都反映在那张表里，这里不另留一份清单。
+For general research on sleep, exercise, habits, learning or decision-making, locate a relevant original entry and read the complete entry, including limitations and opposing evidence. Find the book in bundled `references/book/`, or repository `book/`; the original chapter table is in its README. Use search tools rather than relying on remembered entry numbers. `references/index.tsv`, when present, is an index of the **original** source book.
 
-节文件就在 `book/` 下，文件名自带节号和节名，`ls book/` 也能看全。
+Separate three things in the answer:
 
-长文在 `docs/`，一篇讲一件事（结婚划不划算、被裁了之后先做什么这类），`ls docs/` 能看全。
+1. A **Malaysian rule or service pathway**, with its Malaysian source and eligibility.
+2. A **research finding**, with the study population, year, limitations and original citation.
+3. A **practical judgment or personal estimate**, clearly identified as such.
 
-## 第 3 步：把条目捞出来
+A study conducted in China is not automatically invalid in Malaysia, but do not relabel its study population, treatment availability or effect size as a Malaysian result. Preserve the source's HR/RR/OR and confidence interval. An odds ratio is not a risk ratio; do not turn either into an absolute risk reduction without suitable baseline data.
 
-正文根目录里有 `index.tsv`（随包带的）就先搜它。它一行一条，列依次是节、条、标题、性价比、收益、口径、钱、时间、毅力、证据、争议、人群、文件：
+The original A/B/C labels describe its author's evidence scheme, not Malaysian legal validity. Describe official rules as **official guidance or law**, not as an RCT-quality medical finding. Do not transfer original cost tags or “value for money” tiers to Malaysia. They were built around different prices, institutions and consequences.
 
-```bash
-grep -E '关键词1|关键词2' index.tsv
-```
+## Compare useful actions
 
-索引只有标题和标签，搜到之后仍要回 `book/` 把那几条整条读完。标题里没有那个词不等于书里没写，索引搜不到就接着搜正文。
+Use the user's actual RM costs, travel time and effort where known. For unknown prices or eligibility, say what must be checked. Keep health, money, time/energy and legal consequences separate; do not combine them into a single score. When comparing actions, explain whose benefit and risk are being considered, including dependants or bystanders where relevant.
 
-节文件最大的有 180 KB，别整篇读，按关键词捞。有 Grep / Read 这类工具就用工具，只有 shell 就用命令：
+Give a direct recommendation proportional to the evidence, a small number of next actions, the main trade-offs, and important exceptions. For each country-specific claim, link the supporting source close to it. Cite a Malaysian reference ID where available; cite an original chapter and entry only for the original evidence actually used. Never make an original chapter citation appear to support a Malaysian benefit or law.
 
-```bash
-grep -rn '^### ' book/ | grep -E '关键词1|关键词2'        # 先看有哪些条目标题
-grep -rn -B2 -A8 '关键词' book/08-别把自己搭进去.md        # 正文里搜，带上下文
-sed -n '/^### 16\. /,/^### 17\. /p' book/08-别把自己搭进去.md  # 按条号抽一整条
-```
-
-**抽出来的条目要整条读完**，尤其是「备注」栏——适用人群、争议、例外都写在那里，只读标题会把条件丢掉。
-
-一条长这样：
-
-```markdown
-### 5. 把家里的食盐换成低钠盐（钾盐）
-<!-- 成本标签: 钱=少 时间=少 毅力=否 收益=中 口径=死亡率 -->
-- 成本：每袋贵几元
-- 说人话：……死亡的概率低约 12%……
-- 收益：脑卒中降 14%，心血管事件降 13%，总死亡率降 12%
-- 证据等级：A
-- 来源：Neal B, et al. (2021). NEJM. https://doi.org/10.1056/NEJMoa2105675
-- 备注：争议。肾功能不全、正在吃保钾利尿剂的人不要用。……
-```
-
-那行 HTML 注释是给机器读的成本标签：钱 0/少/多、时间 少/中/多、毅力 否/些/是、收益 大/中/小、口径 死亡率/金钱/时间/自由。少数条目末尾还有 `人群=`（怀孕、婴幼儿、孩子、老人、35岁、60岁、女性，逗号是或、加号是且），表示只对这些人有用；用户明显不在那个人群里时，这条可以不推荐。
-
-## 第 4 步：排序
-
-排序照书的算法，别凭感觉：
-
-1. 有 `index.tsv` 就直接用「性价比」那一列，它是打包时照书的算法算好的。没有索引时，档位的算法以仓库根目录的 `index.html` 为准，别凭记忆写，当场把那两行抠出来照着算：
-
-   ```bash
-   grep -n 'COST_W = \|e\.ratio = ' index.html
-   ```
-
-   前一行是三项成本各档的权重，成本分 = 钱 + 时间 + 毅力三项相加；后一行是收益量级配上成本分怎么落到「极高 / 高 / 一般」。
-2. 只按文件 curl 了正文、索引和 `index.html` 都没有时，别报性价比档，改成把收益量级和三个成本标签原样列出来，让用户自己掂量。
-3. 先按性价比，同档再按证据等级 A > B > C，再按跟用户处境的贴合度。
-4. **不同口径之间不排序**。换钱的和换寿命的分开列，各排各的。
-5. 「一般」不等于不该做，只是那笔花销得用户自己掂量。性价比是作者的判断，按书自己的标准只算 C 级，和证据等级是两回事。
-
-## 第 5 步：怎么写这份答复
-
-排好序之后按这个结构写：
-
-1. **一句话结论**：这件事划不划算、该不该做、第一步是什么。
-2. **先做这几条**（3 到 7 条，按上面的序）。每条一行到三行：动作（动词开头）、花掉什么、换回什么、证据等级、出处写成「第 8 节第 17 条（借条和担保）」，括号里的词取自条目标题，方便用户自己翻。
-3. **别做 / 不用做的**：书里明确说不值得或有反面证据的，单列出来。
-4. **书里没写的**：如实说，不要拿常识冒充书的内容。
-5. 需要的话补一句复查点：什么时候回头再看一次，或者什么信号出现就改主意。
-
-写的时候守住这几条：
-
-- **落到谁身上要说清**。书把受益人分四档，按好处回到自己身上的可能性从高到低：① 你自己；② 配偶和直系亲属；③ 朋友、同事和其他亲属；④ 陌生人。写到第 ④ 档（救陌生人、替人担保、帮人转账）要把风险面和好处一起写：被讹、被卷进案子、被报复，不能只写好处，也不能写成一律别管。
-- **「法律支持你」的事必须连过程成本一起说**。只说结果不说过程，等于把胜诉率当成收益。要交代要不要打官司、大概多久（一审普通程序按规定 6 个月内审完、可以延长，简易程序 3 个月，这是法定审限不是实际耗时）、律师费谁掏（律师费不在诉讼费用里，败诉方负担不包括它）。
-- **数字照抄条目**，一个不改。条目里写了置信区间、人群、年份就一并留着；HR、RR、OR 这类写法旁边就地翻成「低约 28%」，原值不删。条目里没有的数字、症状、机制解读一律不加。
-- **口语化**：按没受过专业训练的成年人能一遍读懂来写。专业名词当场用日常话解释一句，法条落到「会摊上什么后果、该怎么做」。来源栏照原样给，方便核对。
-- **语气克制**，不说教，不用感叹号；中文答复使用简体中文。用户不按建议做是他自己的事，不追着劝。
-- **政策会变**：第 7、19、21、24、31、32 节里那些金额、时限、名单，正文写了截至日期，答复里把日期带上并提醒用户自查官方渠道。
-- 有「争议」标注的条目，把反方证据也说一句；标了「TODO 待核实」的，别当结论用。
-- 不引知乎、公众号、搜狐这类二手转述，只给条目「来源」栏里已有的链接。
-
-## 边界
-
-这本书给的是通用口径，不替代医生、律师、会计。涉及具体病情、具体案件、具体税务的，按书里的条目给方向和该找谁，别替专业人士下判断。不给个性化投资建议。
-
-书的观点是作者的，性价比档怎么划也是作者的判断。用户不同意某一条时，把书里的依据摆出来就够了，不辩论。
+End with any unresolved fact that would change the decision and a practical way to verify it. These references support informed decisions; they do not replace individual medical care, legal representation or regulated financial advice.

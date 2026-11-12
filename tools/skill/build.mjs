@@ -13,15 +13,17 @@
 //
 // zip 里默认套一层 mylife-guide/ 目录，解压到 ~/.claude/skills/ 这类目录下正好就位。
 // 上传的地方要求 SKILL.md 在压缩包根上的，加 --flat。
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import assert from 'node:assert/strict';
 import { resolve, dirname } from 'node:path';
 import { zip } from '../lib/zip.mjs';
-import { ROOT, REPO, SITE, TITLE, UPSTREAM_REPO, UPSTREAM_COMMIT, read, readBook, COST_W, ratioOf, gitCommit, buildStamp } from '../lib/book.mjs';
+import { ROOT, REPO, TITLE, UPSTREAM_REPO, UPSTREAM_COMMIT, read, readBook, COST_W, ratioOf, gitCommit, buildStamp } from '../lib/book.mjs';
 
 const args = process.argv.slice(2);
 const flat = args.includes('--flat');
 const OUT = resolve(ROOT, args.find(a => !a.startsWith('--')) ?? 'dist/mylife-guide.zip');
 const NAME = 'mylife-guide';
+const BRANCH = 'malaysia-edition';
 
 // ---------- 读条目，只取索引要的那几样 ----------
 function parseSection(file) {
@@ -64,60 +66,85 @@ for (const s of sections) {
 }
 const index = [COLS, ...rows].map(r => r.join('\t')).join('\n') + '\n';
 
-// ---------- 包里的两份说明 ----------
+// ---------- Package notes and Malaysian references ----------
 const commit = gitCommit();
 const stamp = buildStamp();
-const version = `${TITLE} · mylife-guide skill
-打包时间：${stamp}（北京时间）
-衍生版本提交：${commit || '未知（工作区构建）'}
-原作版本：${UPSTREAM_COMMIT}（同步于 2026-11-12）
-原作作者：eternity4719
-原作仓库：${UPSTREAM_REPO}
-${sections.length} 节 ${rows.length} 条，长文 ${docFiles.length} 篇
-最新版正文：${REPO}
+const referenceRoot = `skills/${NAME}/references`;
+function markdownFiles(directory) {
+  return readdirSync(resolve(ROOT, directory), { withFileTypes: true })
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .flatMap(entry => entry.isDirectory()
+      ? markdownFiles(`${directory}/${entry.name}`)
+      : entry.isFile() && entry.name.endsWith('.md') ? [`${directory}/${entry.name}`] : []);
+}
+const malaysiaFiles = markdownFiles(referenceRoot);
+const auditText = read('malaysia/audit.json');
+const audit = JSON.parse(auditText);
+assert.equal(audit.totalEntries, rows.length, 'Malaysia audit must cover the current original book');
+assert.equal(audit.entries.length, rows.length, 'Malaysia audit entry inventory is incomplete');
+assert.equal(audit.chapters.length, sections.length, 'Malaysia chapter routing is incomplete');
+const localReferences = new Set(malaysiaFiles.map(file => file.slice(referenceRoot.length + 1)));
+for (const chapter of audit.chapters) {
+  assert(localReferences.has(chapter.reference), `Missing Malaysian reference: ${chapter.reference}`);
+}
+for (const entry of audit.entries) {
+  assert.equal(entry.malaysiaEntryReview, 'not-individually-validated', 'The source scan must not certify Malaysian applicability');
+  assert(bookFiles.includes(entry.file), `Missing source chapter for audit entry ${entry.id}`);
+}
+const version = `MyLife Guide Malaysia (${NAME})
+Built: ${stamp} (UTC+08:00)
+Working-tree base commit: ${commit || 'unknown'}
+Reference review snapshot: ${audit.reviewedOn}; a stored access date is not current verification.
+Original book: ${TITLE}, by eternity4719
+Original snapshot: ${UPSTREAM_COMMIT}
+Original repository: ${UPSTREAM_REPO}
+Original corpus: ${sections.length} chapters, ${rows.length} entries, ${docFiles.length} essays.
+Original entries individually validated for Malaysia: 0.
+Derivative branch: ${REPO}/tree/${BRANCH}
 `;
 
-const readme = `# MyLife Guide（${NAME}）
+const readme = `# MyLife Guide Malaysia
 
-独立衍生版本。原作《${TITLE}》由 eternity4719 编写；本版改了 skill 名称、安装说明和项目链接，保留正文。完整来源与改动说明见 [ATTRIBUTION.md](ATTRIBUTION.md)。
+An English, Malaysia-first decision guide with Malaysian service pathways and official sources. Start with [SKILL.md](SKILL.md) and [Malaysia chapter routing](references/malaysia-routing.md).
 
-让 AI 助手照《${TITLE}》回答具体问题：该不该做、值不值、怎么选、出事了先做什么、能领哪笔钱、这么干犯不犯法。
+**The original China corpus is not fully localized.** Its ${rows.length} entries remain in Chinese as source material, and none is individually certified as Malaysian guidance. Original prices, benefits, laws, emergency contacts and value-for-money tiers are not Malaysian advice. See [ATTRIBUTION.md](ATTRIBUTION.md) for the changes and original author credit.
 
-它先把相关条目从正文里查出来，再按书里的算账方式排序回答，每条注明出自第几节第几条。查不到就说查不到，不凭记忆编数字。
+## What is included
 
-## 包里有什么
+- \`SKILL.md\` and \`agents/openai.yaml\`: the Malaysia-first skill and its display metadata.
+- \`references/malaysia-*.md\`: Malaysian health, work/money, law/digital references and routing for all ${sections.length} source chapters.
+- \`references/malaysia-audit.json\`: the original-entry inventory and automated country-specific flags. Its file paths are repository-relative; source chapters are under \`references/book/\` in this package.
+- \`references/book/\` and \`references/docs/\`: the unchanged original corpus (${sections.length} chapters and ${docFiles.length} essays).
+- \`references/index.tsv\`: the **original** book index. Its scores and cost labels are not Malaysian scores.
+- \`references/README.md\`: the source chapter table and repository overview.
+- \`references/VERSION.txt\`, both license texts and attribution.
 
-- \`SKILL.md\`：给 AI 助手的规则。
-- \`references/\`：全书正文，${sections.length} 节 ${rows.length} 条，另有 ${docFiles.length} 篇长文。不用联网就能查。
-- \`references/index.tsv\`：一行一条，带成本标签、性价比档和证据等级，供检索和排序。
-- \`references/VERSION.txt\`：这份正文的打包时间。本包打于 ${stamp}（北京时间）。
+## Install and use
 
-## 怎么装
+Extract the complete \`${NAME}\` directory into the assistant's skill directory, preserving its subfolders, then start a new chat.
 
-把 \`${NAME}\` 这个目录整个放进 AI 助手的 skill 目录，然后重开一次会话。
+- Codex: \`~/.agents/skills/\`
+- Claude Code: \`~/.claude/skills/\`
+- Other compatible assistants: their documented skill directory.
 
-- Claude Code：\`~/.claude/skills/\`
-- Codex：\`~/.agents/skills/\`
-- 其他支持 SKILL.md 的助手：放进它的 skill 目录，或者直接让它读这份 SKILL.md。
+For example: “Use $mylife-guide to help me compare my options in Malaysia.” Include the state or territory and relevant circumstances when they affect the answer. A flat archive has the same contents without the outer \`${NAME}/\` directory; create that directory before extracting it.
 
-装好以后直接问「朋友让我替他担保，签不签」「每天通勤两小时值不值」就会触发。
+## Snapshot and limits
 
-## 边界
+Reference review snapshot: **${audit.reviewedOn}**. Package built: **${stamp} (UTC+08:00)**. These are stored snapshots, not a promise that rules, fees, eligibility or contact hours are current. Recheck the linked official source for the actual case. When offline, identify what remains unverified; do not substitute the Chinese book's rules for missing Malaysian evidence.
 
-书给的是通用口径，不替代医生、律师、会计。涉及具体病情、具体案件、具体税务的，它只按书里的条目给方向和该找谁。
+These references support decisions and service navigation; they do not replace individual medical care, legal representation or regulated financial advice.
 
-正文一直在更新，政策类的金额、时限、名单会变。答复里会带上本包的打包日期，要紧的事请按条目来源栏里的官方链接再核一遍。
+## Attribution and licenses
 
-## 来源和许可
+Original book: 《${TITLE}》 by **eternity4719** and contributors.
 
-正文出自开源项目《${TITLE}》，作者 eternity4719。
-
-- 本版仓库：${REPO}
-- 原作仓库：${UPSTREAM_REPO}
-- 原作版本：${UPSTREAM_COMMIT}（2026-11-12）
-- 本版在线检索页（需维护者启用 GitHub Pages）：${SITE}
-
-正文（\`references/\` 下的文字）用 CC BY 4.0 发布，转载、改编要署名并附许可证链接 https://creativecommons.org/licenses/by/4.0/ 。SKILL.md 用 MIT 许可。完整许可随包附在 [LICENSE](LICENSE) 和 [LICENSE-CODE](LICENSE-CODE)。
+- Original repository: ${UPSTREAM_REPO}
+- Original snapshot: ${UPSTREAM_COMMIT}
+- Derivative branch: ${REPO}/tree/${BRANCH}
+- Text: [CC BY 4.0](LICENSE), https://creativecommons.org/licenses/by/4.0/
+- Code and skill: [MIT](LICENSE-CODE), with the original copyright retained.
+- Adaptation details and Malaysian-reference licensing: [ATTRIBUTION.md](ATTRIBUTION.md).
 `;
 
 // ---------- 打包 ----------
@@ -129,13 +156,23 @@ const bundledRefs = new Set([...bookFiles, ...docFiles, 'README.md', 'LICENSE', 
 const referenceReadme = read('README.md').replace(/\]\(([^)]+)\)/g, (all, target) => {
   if (/^(?:[a-z][a-z\d+.-]*:|#)/i.test(target)) return all;
   const path = target.split('#')[0];
+  const suffix = target.slice(path.length);
+  if (path === `skills/${NAME}/SKILL.md`) return `](../SKILL.md${suffix})`;
+  if (path === `skills/${NAME}/README.md`) return `](../README.md${suffix})`;
+  if (path === 'malaysia/audit.json') return `](malaysia-audit.json${suffix})`;
+  if (path.startsWith(`${referenceRoot}/`) && localReferences.has(path.slice(referenceRoot.length + 1))) {
+    return `](${path.slice(referenceRoot.length + 1)}${suffix})`;
+  }
   if (bundledRefs.has(path)) return all;
-  const online = path.endsWith('/') ? `${REPO}/tree/main/` : `${REPO}/blob/main/`;
+  const online = path.endsWith('/') ? `${REPO}/tree/${BRANCH}/` : `${REPO}/blob/${BRANCH}/`;
   return `](${online}${target})`;
 });
 const files = [
   { name: `${prefix}SKILL.md`, data: text(read(`skills/${NAME}/SKILL.md`)) },
   { name: `${prefix}README.md`, data: text(readme) },
+  { name: `${prefix}agents/openai.yaml`, data: text(read(`skills/${NAME}/agents/openai.yaml`)) },
+  ...malaysiaFiles.map(file => ({ name: `${prefix}references/${file.slice(referenceRoot.length + 1)}`, data: text(read(file)) })),
+  { name: `${prefix}references/malaysia-audit.json`, data: text(auditText) },
   { name: `${prefix}references/README.md`, data: text(referenceReadme) },
   ...['LICENSE', 'LICENSE-CODE', 'ATTRIBUTION.md'].flatMap(file => [
     { name: `${prefix}${file}`, data: text(read(file)) },
@@ -146,6 +183,15 @@ const files = [
   ...[...bookFiles, ...docFiles].map(f => ({ name: `${prefix}references/${f}`, data: text(read(f)) })),
 ];
 
+const names = new Set(files.map(file => file.name));
+assert.equal(names.size, files.length, 'Duplicate package paths would overwrite content');
+for (const row of rows) assert(names.has(`${prefix}references/${row.at(-1)}`), 'An indexed chapter is missing');
+for (const ref of read(`skills/${NAME}/SKILL.md`).matchAll(/`(references\/[A-Za-z0-9_./-]+\.md)`/g)) {
+  assert(names.has(`${prefix}${ref[1]}`), `The skill requires an unbundled reference: ${ref[1]}`);
+}
+for (const required of ['SKILL.md', 'agents/openai.yaml', 'LICENSE', 'LICENSE-CODE', 'ATTRIBUTION.md', 'references/malaysia-audit.json']) {
+  assert(names.has(`${prefix}${required}`), `Required package content missing: ${required}`);
+}
 const buf = zip(files, new Date(), { unix: true });
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, buf);

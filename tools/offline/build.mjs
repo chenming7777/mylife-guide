@@ -4,7 +4,7 @@
 // 站内相对链接改成线上地址，侧栏图片转成 data URI，其余一个字不动。
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
-import { ROOT, REPO, SITE, read, gitCommit, buildStamp } from '../lib/book.mjs';
+import { ROOT, REPO, read, gitCommit, buildStamp } from '../lib/book.mjs';
 
 const OUT = resolve(ROOT, process.argv[2] ?? 'dist/mylife-guide.html');
 const STAMP = buildStamp();
@@ -45,11 +45,13 @@ if (/googletagmanager|google-analytics/.test(html)) throw new Error('剥掉标�
 must('href="README.md"', ' README.md 链接');
 must('href="book/"', ' book/ 链接');
 must('href="selfcheck.html"', ' 自查页链接');
+must('href="malaysia/README.md"', ' Malaysia guide link');
 html = html
-  .replaceAll('href="README.md"', `href="${REPO}/blob/main/README.md"`)
-  .replaceAll('href="selfcheck.html"', `href="${SITE}selfcheck.html"`)
-  .replaceAll('href="book/"', `href="${REPO}/tree/main/book"`)
-  .replaceAll('<a class="title" href="./"', `<a class="title" href="${SITE}"`);
+  .replaceAll('href="README.md"', `href="${REPO}/blob/malaysia-edition/README.md"`)
+  .replaceAll('href="selfcheck.html"', `href="${REPO}/blob/malaysia-edition/selfcheck.html"`)
+  .replaceAll('href="malaysia/README.md"', 'href="mylife-guide-malaysia.html"')
+  .replaceAll('href="book/"', `href="${REPO}/tree/malaysia-edition/book"`)
+  .replaceAll('<a class="title" href="./"', '<a class="title" href="mylife-guide-malaysia.html"');
 
 // 侧栏广告图和赞赏码转 data URI，否则离线打开是个裂图
 for (const [img, mime] of [['ads/mcyyy-side.webp', 'image/webp'], ['ads/wechat-reward.png', 'image/png']]) {
@@ -62,7 +64,7 @@ for (const [img, mime] of [['ads/mcyyy-side.webp', 'image/webp'], ['ads/wechat-r
 const foot = '<div class="foot">';
 must(foot, '页脚');
 const commitNote = COMMIT ? `，正文提交 ${COMMIT.slice(0, 7)}` : '';
-html = html.replace(foot, `${foot}离线副本，生成于 ${STAMP}（北京时间）${commitNote}；正文会继续更新，以 <a href="${SITE}">在线版</a> 为准。<br>`);
+html = html.replace(foot, `${foot}离线副本，生成于 ${STAMP}（北京时间）${commitNote}；此文件保留原作中国语境。马来西亚用户请先读旁边的 <a href="mylife-guide-malaysia.html">English Malaysia guide</a>，并核对当前本地来源。<br>`);
 
 // 正文要在主脚本之前就位
 const mainScript = '\n<script>\n/* ---------- 调试面板';

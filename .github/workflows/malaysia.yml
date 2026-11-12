@@ -1,0 +1,92 @@
+name: Malaysia guide
+
+on:
+  push:
+    branches: [malaysia-edition]
+    paths:
+      - skills/mylife-guide/**
+      - malaysia/**
+      - tools/malaysia/**
+      - tools/skill/**
+      - tools/lib/**
+      - tools/offline/**
+      - book/**
+      - docs/*.md
+      - README.md
+      - ATTRIBUTION.md
+      - LICENSE
+      - LICENSE-CODE
+      - index.html
+      - .github/workflows/malaysia.yml
+  pull_request:
+    paths:
+      - skills/mylife-guide/**
+      - malaysia/**
+      - tools/malaysia/**
+      - tools/skill/**
+      - tools/lib/**
+      - tools/offline/**
+      - book/**
+      - docs/*.md
+      - README.md
+      - ATTRIBUTION.md
+      - LICENSE
+      - LICENSE-CODE
+      - index.html
+      - .github/workflows/malaysia.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the source inventory and chapter routes
+        run: node tools/malaysia/audit.mjs --check
+      - name: Build the complete skill package
+        run: node tools/skill/build.mjs
+      - name: Build and validate the offline Malaysian guide
+        run: node tools/malaysia/build.mjs
+      - name: Build the labeled original corpus
+        run: node tools/offline/build.mjs
+      - name: Verify compressed content and reference coverage
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv, io, json, zipfile
+          root = Path.cwd()
+          prefix = 'mylife-guide/'
+          with zipfile.ZipFile('dist/mylife-guide.zip') as archive:
+              assert archive.testzip() is None, 'Archive integrity failed'
+              names = set(archive.namelist())
+              def source(path):
+                  return (root / path).read_text(encoding='utf-8').encode('utf-8')
+              for name in ['LICENSE', 'LICENSE-CODE', 'ATTRIBUTION.md']:
+                  assert archive.read(prefix + name) == source(name), name
+              for path in (root / 'skills/mylife-guide/references').rglob('*.md'):
+                  relative = path.relative_to(root / 'skills/mylife-guide').as_posix()
+                  assert archive.read(prefix + relative) == source(path), relative
+              for name in ['SKILL.md', 'agents/openai.yaml']:
+                  assert archive.read(prefix + name) == source('skills/mylife-guide/' + name), name
+              audit_bytes = archive.read(prefix + 'references/malaysia-audit.json')
+              assert audit_bytes == source('malaysia/audit.json')
+              audit = json.loads(audit_bytes)
+              rows = list(csv.DictReader(io.StringIO(archive.read(prefix + 'references/index.tsv').decode('utf-8')), delimiter='\t'))
+              assert len(rows) == audit['totalEntries'] == len(audit['entries'])
+              for row in rows:
+                  assert prefix + 'references/' + row['文件'] in names
+              for chapter in audit['chapters']:
+                  assert prefix + 'references/' + chapter['reference'] in names
+          legacy = (root / 'dist/mylife-guide.html').read_text(encoding='utf-8')
+          assert 'href="mylife-guide-malaysia.html"' in legacy
+          assert 'not localized Malaysian advice' in legacy
+          assert (root / 'dist/mylife-guide-malaysia.html').is_file()
+          print('Archive, Malaysian references, original-entry coverage and offline guide links verified.')
+          PY

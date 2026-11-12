@@ -1,0 +1,4 @@
+interface:
+  display_name: "MyLife Guide Malaysia"
+  short_description: "Practical decisions with Malaysian sources"
+  default_prompt: "Use $mylife-guide to help me make this decision in Malaysia, citing relevant Malaysian sources."

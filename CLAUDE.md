@@ -1,5 +1,7 @@
 > 本仓库是 MyLife Guide，基于 eternity4719/HowToLiveBetter 的独立衍生版本。原书写作规则保留如下；当前仓库、安装与发布方式以 README.md 和 ATTRIBUTION.md 为准。
 
+> Malaysia edition: English Malaysian references live in `skills/mylife-guide/references/malaysia-*.md` and `malaysia/`. The inherited Chinese writing rules below govern original book edits. Malaysian rules require Malaysian primary sources and explicit jurisdiction/eligibility; the original book is not local authority. The user requested this English localization.
+
 # 高性价比人生指南 · 项目规则
 
 以下规则适用于本仓库的所有工作，必须遵守。
