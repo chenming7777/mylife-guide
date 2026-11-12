@@ -1,27 +1,27 @@
-// 把 life-decision-guide 这个 skill 连同全书正文打成一个能离线用的 zip。
-// 用法：node tools/skill/build.mjs [输出路径] [--flat]   默认输出 dist/life-decision-guide.zip
+// 把 mylife-guide 这个 skill 连同全书正文打成一个能离线用的 zip。
+// 用法：node tools/skill/build.mjs [输出路径] [--flat]   默认输出 dist/mylife-guide.zip
 //
 // 仓库里的 skill 只有一份 SKILL.md，正文靠本地仓库或现取 GitHub。拿去别处上传、分发时，
 // 对方多半连不上 GitHub，所以把正文一起带上。包里的东西：
-//   life-decision-guide/SKILL.md              原样，来自 skills/life-decision-guide/
-//   life-decision-guide/README.md             这个包是什么、怎么装、哪天打的
-//   life-decision-guide/references/README.md  书的 README（SKILL.md 第 2 步要读里面的问题表）
-//   life-decision-guide/references/book/      各节正文
-//   life-decision-guide/references/docs/      README 里链接过的长文（核实记录、引用对照不带）
-//   life-decision-guide/references/index.tsv  一行一条：标题、成本标签、性价比档、证据等级
-//   life-decision-guide/references/VERSION.txt    打包时间和提交号
+//   mylife-guide/SKILL.md              原样，来自 skills/mylife-guide/
+//   mylife-guide/README.md             这个包是什么、怎么装、哪天打的
+//   mylife-guide/references/README.md  书的 README（SKILL.md 第 2 步要读里面的问题表）
+//   mylife-guide/references/book/      各节正文
+//   mylife-guide/references/docs/      README 里链接过的长文（核实记录、引用对照不带）
+//   mylife-guide/references/index.tsv  一行一条：标题、成本标签、性价比档、证据等级
+//   mylife-guide/references/VERSION.txt    打包时间和提交号
 //
-// zip 里默认套一层 life-decision-guide/ 目录，解压到 ~/.claude/skills/ 这类目录下正好就位。
+// zip 里默认套一层 mylife-guide/ 目录，解压到 ~/.claude/skills/ 这类目录下正好就位。
 // 上传的地方要求 SKILL.md 在压缩包根上的，加 --flat。
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { zip } from '../lib/zip.mjs';
-import { ROOT, REPO, SITE, TITLE, read, readBook, COST_W, ratioOf, gitCommit, buildStamp } from '../lib/book.mjs';
+import { ROOT, REPO, SITE, TITLE, UPSTREAM_REPO, UPSTREAM_COMMIT, read, readBook, COST_W, ratioOf, gitCommit, buildStamp } from '../lib/book.mjs';
 
 const args = process.argv.slice(2);
 const flat = args.includes('--flat');
-const OUT = resolve(ROOT, args.find(a => !a.startsWith('--')) ?? 'dist/life-decision-guide.zip');
-const NAME = 'life-decision-guide';
+const OUT = resolve(ROOT, args.find(a => !a.startsWith('--')) ?? 'dist/mylife-guide.zip');
+const NAME = 'mylife-guide';
 
 // ---------- 读条目，只取索引要的那几样 ----------
 function parseSection(file) {
@@ -67,14 +67,19 @@ const index = [COLS, ...rows].map(r => r.join('\t')).join('\n') + '\n';
 // ---------- 包里的两份说明 ----------
 const commit = gitCommit();
 const stamp = buildStamp();
-const version = `${TITLE} · life-decision-guide skill
+const version = `${TITLE} · mylife-guide skill
 打包时间：${stamp}（北京时间）
-正文版本：${commit ? commit.slice(0, 7) : '未知'}
+衍生版本提交：${commit || '未知（工作区构建）'}
+原作版本：${UPSTREAM_COMMIT}（同步于 2026-11-12）
+原作作者：eternity4719
+原作仓库：${UPSTREAM_REPO}
 ${sections.length} 节 ${rows.length} 条，长文 ${docFiles.length} 篇
 最新版正文：${REPO}
 `;
 
-const readme = `# 人生决策 skill（${NAME}）
+const readme = `# MyLife Guide（${NAME}）
+
+独立衍生版本。原作《${TITLE}》由 eternity4719 编写；本版改了 skill 名称、安装说明和项目链接，保留正文。完整来源与改动说明见 [ATTRIBUTION.md](ATTRIBUTION.md)。
 
 让 AI 助手照《${TITLE}》回答具体问题：该不该做、值不值、怎么选、出事了先做什么、能领哪笔钱、这么干犯不犯法。
 
@@ -107,19 +112,35 @@ const readme = `# 人生决策 skill（${NAME}）
 
 正文出自开源项目《${TITLE}》，作者 eternity4719。
 
-- 仓库：${REPO}
-- 在线检索页：${SITE}
+- 本版仓库：${REPO}
+- 原作仓库：${UPSTREAM_REPO}
+- 原作版本：${UPSTREAM_COMMIT}（2026-11-12）
+- 本版在线检索页（需维护者启用 GitHub Pages）：${SITE}
 
-正文（\`references/\` 下的文字）用 CC BY 4.0 发布，转载、改编要署名并附许可证链接 https://creativecommons.org/licenses/by/4.0/ 。SKILL.md 用 MIT 许可。
+正文（\`references/\` 下的文字）用 CC BY 4.0 发布，转载、改编要署名并附许可证链接 https://creativecommons.org/licenses/by/4.0/ 。SKILL.md 用 MIT 许可。完整许可随包附在 [LICENSE](LICENSE) 和 [LICENSE-CODE](LICENSE-CODE)。
 `;
 
 // ---------- 打包 ----------
 const prefix = flat ? '' : `${NAME}/`;
 const text = s => Buffer.from(s, 'utf8');
+// Keep the book/chapter links local; links to resources outside this offline
+// bundle remain explicit online links instead of pointing to missing files.
+const bundledRefs = new Set([...bookFiles, ...docFiles, 'README.md', 'LICENSE', 'LICENSE-CODE', 'ATTRIBUTION.md']);
+const referenceReadme = read('README.md').replace(/\]\(([^)]+)\)/g, (all, target) => {
+  if (/^(?:[a-z][a-z\d+.-]*:|#)/i.test(target)) return all;
+  const path = target.split('#')[0];
+  if (bundledRefs.has(path)) return all;
+  const online = path.endsWith('/') ? `${REPO}/tree/main/` : `${REPO}/blob/main/`;
+  return `](${online}${target})`;
+});
 const files = [
   { name: `${prefix}SKILL.md`, data: text(read(`skills/${NAME}/SKILL.md`)) },
   { name: `${prefix}README.md`, data: text(readme) },
-  { name: `${prefix}references/README.md`, data: text(read('README.md')) },
+  { name: `${prefix}references/README.md`, data: text(referenceReadme) },
+  ...['LICENSE', 'LICENSE-CODE', 'ATTRIBUTION.md'].flatMap(file => [
+    { name: `${prefix}${file}`, data: text(read(file)) },
+    { name: `${prefix}references/${file}`, data: text(read(file)) },
+  ]),
   { name: `${prefix}references/index.tsv`, data: text(index) },
   { name: `${prefix}references/VERSION.txt`, data: text(version) },
   ...[...bookFiles, ...docFiles].map(f => ({ name: `${prefix}references/${f}`, data: text(read(f)) })),

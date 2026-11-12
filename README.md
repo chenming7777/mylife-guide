@@ -1,3 +1,48 @@
+# MyLife Guide
+
+Your local life-reference library and `mylife-guide` assistant skill, derived from [HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter) by **eternity4719**. This is an independent adaptation, not an official edition.
+
+**Start here:** [Use or install the skill](skills/mylife-guide/README.md) · [Attribution and changes](ATTRIBUTION.md) · [Book contents](#目录)
+
+## Use it locally
+
+Open this folder in Codex or Claude Code and ask:
+
+> Use MyLife Guide to help me decide whether a two-hour daily commute is worth it. Cite the book's chapter and entry numbers.
+
+For an offline skill that works from other projects, build `dist/mylife-guide.zip` with `node tools/skill/build.mjs`, then follow the [installation instructions](skills/mylife-guide/README.md). To read and search the book in a browser without a server, run `node tools/offline/build.mjs` and open `dist/mylife-guide.html`.
+
+The reference text remains in Chinese and retains its mainland-China policy context. The assistant can answer in your language and must confirm the relevant country or region before applying local rules.
+
+## Install from GitHub
+
+Once the public repository is published:
+
+```bash
+mkdir -p ~/.agents/skills/mylife-guide && curl -fsSL -o ~/.agents/skills/mylife-guide/SKILL.md "https://raw.githubusercontent.com/chenming7777/mylife-guide/main/skills/mylife-guide/SKILL.md"
+```
+
+This downloads the instructions only. The [offline installation](skills/mylife-guide/README.md#install-the-complete-offline-skill-recommended) also includes the book. Invoke `$mylife-guide` in a new Codex chat after installation.
+
+## Publishing and updates
+
+The separate repository is `chenming7777/mylife-guide`; `upstream` points to the original project. Push local changes to `origin`. Ebook releases run manually from the **Actions** tab. GitHub Pages links require enabling Pages for branch `main`, root `/`; local use works without Pages or a release.
+
+If GitHub setup has not completed, create an empty `mylife-guide` repository in your account, then run:
+
+```bash
+git remote add origin https://github.com/chenming7777/mylife-guide.git
+git push -u origin main
+```
+
+If `origin` already exists, use `git remote set-url origin https://github.com/chenming7777/mylife-guide.git` instead of adding it. Do not push to `upstream`.
+
+## Original reference guide
+
+The adapted navigation and original Chinese guide follow. Original community, donation and commercial links refer to the upstream author. Book text is CC BY 4.0 and code is MIT; both original license files are preserved. Snapshot: **2026-11-12**, upstream commit `36c78569a8d21f26c7c650d2993c7103832ca4b5`.
+
+---
+
 <div align="center">
 
 <img src="og.png" alt="高性价比人生指南 —— 用最少的钱、时间和精力，换回最多的寿命、金钱和人身自由" width="820">
@@ -9,25 +54,25 @@
 
 不用全做：这是一份备选单，不是任务清单——挑走一两条就算数，作者自己也没做到其中大部分。
 
-书里的内容可能过时，也可能有错。不少政策各地执行不一样。真去办事、看病、打官司时，以当地部门、医生和律师的说法为准。发现写错了，欢迎[提 issue](https://github.com/eternity4719/HowToLiveBetter/issues)。
+书里的内容可能过时，也可能有错。不少政策各地执行不一样。真去办事、看病、打官司时，以当地部门、医生和律师的说法为准。发现写错了，欢迎[提 issue](https://github.com/chenming7777/mylife-guide/issues)。
 
-**电子书平台上的官方版本由果麦文化独家出品**，2026 年 10 月上架，其他版本都不是官方的。本页的网页版、EPUB、PDF 照旧免费，更新也最快。
+原项目声明：电子书平台上的官方版本由果麦文化独家出品。本仓库是独立衍生版本，非原作者官方版本；原作更新请查看[上游仓库](https://github.com/eternity4719/HowToLiveBetter)。
 
-[![在线检索](https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E6%A3%80%E7%B4%A2-%E7%82%B9%E8%BF%99%E9%87%8C%E6%89%93%E5%BC%80-3451b2?style=flat-square)](https://eternity4719.github.io/HowToLiveBetter/)
+[![在线检索](https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E6%A3%80%E7%B4%A2-%E7%82%B9%E8%BF%99%E9%87%8C%E6%89%93%E5%BC%80-3451b2?style=flat-square)](https://chenming7777.github.io/mylife-guide/)
 [![条目](https://img.shields.io/badge/%E6%9D%A1%E7%9B%AE-772%20%E6%9D%A1-18794e?style=flat-square)](#目录)
 [![证据分级](https://img.shields.io/badge/%E8%AF%81%E6%8D%AE%E5%88%86%E7%BA%A7-A%20497%20%C2%B7%20B%20223%20%C2%B7%20C%2052-915930?style=flat-square)](#证据分级)
 [![原始文献](https://img.shields.io/badge/%E5%8E%9F%E5%A7%8B%E6%96%87%E7%8C%AE-2600%20%E6%9D%A1%E9%93%BE%E6%8E%A5-565a5f?style=flat-square)](docs/核实记录/)
 [![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-CC%20BY%204.0-565a5f?style=flat-square)](#许可)
 [![Claude Code 协助编写](https://img.shields.io/badge/Claude%20Code-%E5%8D%8F%E5%8A%A9%E7%BC%96%E5%86%99-D97757?style=flat-square&logo=claude&logoColor=white)](https://claude.com/claude-code)
 
-### [打开在线检索页](https://eternity4719.github.io/HowToLiveBetter/) · [让 AI 照书回答（skill）](skills/life-decision-guide/README.md)
+### [打开在线检索页](https://chenming7777.github.io/mylife-guide/) · [让 AI 照书回答（skill）](skills/mylife-guide/README.md)
 
 AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担保签不签」，它先查书里的条目再回答，并注明出自第几节第几条。
 
 <table>
 <tr><td align="right"><b>下载</b></td><td align="left">
 
-[PDF](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.pdf) · [EPUB](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.epub) · [离线单文件（HTML）](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.html) · [Anki 牌组](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.apkg)
+[PDF](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.pdf) · [EPUB](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.epub) · [离线单文件（HTML）](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.html) · [Anki 牌组](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.apkg)
 
 </td></tr>
 <tr><td align="right"><b>查阅</b></td><td align="left">
@@ -37,7 +82,7 @@ AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担
 </td></tr>
 <tr><td align="right"><b>自查</b></td><td align="left">
 
-[生活自查](https://eternity4719.github.io/HowToLiveBetter/selfcheck.html)：回答几十道是否题，看看书里哪些事你还没做到、先做哪几件
+[生活自查](https://chenming7777.github.io/mylife-guide/selfcheck.html)：回答几十道是否题，看看书里哪些事你还没做到、先做哪几件
 
 </td></tr>
 <tr><td align="right"><b>长文</b></td><td align="left">
@@ -112,14 +157,14 @@ AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担
 ## 怎么读
 
 - **不用全做**：这是一份备选单，不是任务清单。挑走一两条就算数，剩下的放着，需要时再回来查。「说着容易做着难」这个评价是对的——作者自己也没做到其中大部分，写下来是为了要用的时候找得到。想挑省力的，看下面「只想看最值得做的」那条。
-- **想让 AI 帮你查**：仓库里带了一个中文 skill（[skills/life-decision-guide](skills/life-decision-guide/)），Claude Code 和 Codex 都能装。装上以后直接问「替朋友担保签不签」「每天通勤两小时值不值」。它会先把相关条目从正文里查出来，再照书里的算账方式排序回答，并注明出自第几节第几条。查不到就说查不到，不自己编数字。装法见 [那个目录的说明](skills/life-decision-guide/README.md)。
-- **想按条件挑**：打开[在线检索页](https://eternity4719.github.io/HowToLiveBetter/)，可以按关键词、章节、证据等级来筛，也可以按「花不花钱、花多少时间、要不要毅力」这三样筛，几个条件能叠着用。页面上的内容直接取自 book/ 目录里的正文，正文一改，页面跟着改。
+- **想让 AI 帮你查**：仓库里带了一个中文 skill（[skills/mylife-guide](skills/mylife-guide/)），Claude Code 和 Codex 都能装。装上以后直接问「替朋友担保签不签」「每天通勤两小时值不值」。它会先把相关条目从正文里查出来，再照书里的算账方式排序回答，并注明出自第几节第几条。查不到就说查不到，不自己编数字。装法见 [那个目录的说明](skills/mylife-guide/README.md)。
+- **想按条件挑**：打开[在线检索页](https://chenming7777.github.io/mylife-guide/)，可以按关键词、章节、证据等级来筛，也可以按「花不花钱、花多少时间、要不要毅力」这三样筛，几个条件能叠着用。页面上的内容直接取自 book/ 目录里的正文，正文一改，页面跟着改。
 - **条目之间会互相指路**（「见第 8 节第 17 条」这种）：在检索页里，这种指路带一条虚线。点一下，就地显示被指的那条的标题和「说人话」。想真的翻过去，再按「跳过去」。那一条正好被筛选条件藏起来了，页面会自动把筛选清掉。在 GitHub 上直接读正文点不动，但每处指路后面都写着指向什么（「见第 18 条（借钱写清借条）」）。不翻过去也知道说的是哪条。
 - **想按顺序读**：每节内的先后顺序不代表性价比高低。条目多的节开头有一段分组导览，按主题挑着看就行。
-- **想离线看、想发给别人**：下载 [离线单文件 HTML](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.html)，整本书连同检索和筛选都在这一个文件里，双击就开，不用服务器也不用联网，微信里也能直接传。
-- **想打印或在手机上翻**：下载 [PDF](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.pdf)，A4 排版、两百多页，带目录页码和书签，每节另起一页。
-- **想在 Kindle 或其他阅读器上读**：下载 [EPUB 电子书](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.epub)，Kindle 用 Send to Kindle 发过去即可。
-- **想记住、隔几天复习一遍**：下载 [Anki 牌组](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.apkg)，用 Anki 打开就导入。一条一张卡，按节分成子牌组。正面是建议，背面是说人话、成本和证据等级。可以只学其中几节，也可以按「性价比极高」这类标签筛。以后重新下载再导入一次，卡片内容会更新，复习记录不丢。
+- **想离线看、想发给别人**：下载 [离线单文件 HTML](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.html)，整本书连同检索和筛选都在这一个文件里，双击就开，不用服务器也不用联网，微信里也能直接传。
+- **想打印或在手机上翻**：下载 [PDF](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.pdf)，A4 排版、两百多页，带目录页码和书签，每节另起一页。
+- **想在 Kindle 或其他阅读器上读**：下载 [EPUB 电子书](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.epub)，Kindle 用 Send to Kindle 发过去即可。
+- **想记住、隔几天复习一遍**：下载 [Anki 牌组](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.apkg)，用 Anki 打开就导入。一条一张卡，按节分成子牌组。正面是建议，背面是说人话、成本和证据等级。可以只学其中几节，也可以按「性价比极高」这类标签筛。以后重新下载再导入一次，卡片内容会更新，复习记录不丢。
 - **这四样都是正文每次更新后自动重新生成的**，下载链接固定不变；转发出去的那一份不会跟着更新，以在线版为准。
 - **看不懂那串数字**：每条都有一行「说人话」。它把「收益」栏里那些研究里的写法，翻成「同期死亡的概率低约两成」「拘留几日、罚多少钱」这样的日常说法。它只用「收益」栏已经写到的内容，不添新数字。只看这一行就够拿主意。「收益」栏里原样留着全部数字，想自己核对就看那一栏。
 - **只想看结论最硬的**：在检索页里勾选证据等级 A，只留下有具体数字、来自荟萃分析或大型试验的 497 条。
@@ -140,12 +185,12 @@ AI 助手 skill 支持 Claude Code 和 Codex。装上后直接问「替朋友担
 
 ## 自己跑一份
 
-多数人用不着部署：[在线检索页](https://eternity4719.github.io/HowToLiveBetter/)是现成的，要离线就下[离线单文件 HTML](https://github.com/eternity4719/HowToLiveBetter/releases/download/epub-latest/HowToLiveBetter.html)，双击就开。
+多数人用不着部署：[在线检索页](https://chenming7777.github.io/mylife-guide/)是现成的，要离线就下[离线单文件 HTML](https://github.com/chenming7777/mylife-guide/releases/download/epub-latest/mylife-guide.html)，双击就开。
 
 真要在自己电脑或服务器上跑：
 
 ```bash
-git clone https://github.com/eternity4719/HowToLiveBetter.git
+git clone https://github.com/chenming7777/mylife-guide.git
 cd HowToLiveBetter
 python -m http.server 8000
 ```
@@ -308,27 +353,27 @@ A 级只说明「有具体数字、出处可核」，不说明这个数字一定
 
 本书在 Claude Code 协助下编写：查找原始文献、逐条核对数字与原文是否一致、维护交叉引用和构建脚本。选题、取舍和最终审定由作者负责，每条数字都能在来源栏的原文里找到。
 
-仓库根目录的 `index.html` 是在线检索页：按关键词、章节、证据等级和成本维度（花钱、花时间、要毅力）筛选条目，章节目录和术语表从本文件读取，条目正文从 `book/` 下的章节文件读取。在仓库设置里开启 GitHub Pages（Deploy from a branch，分支 main，目录 /）后即可访问。`tools/epub/` 是电子书生成脚本，在仓库根目录跑 `npm --prefix tools/epub ci && npm --prefix tools/epub run build` 在本地出一本 EPUB 到 `dist/`；GitHub Actions 在正文改动后自动跑同一个脚本并更新 Release。
+仓库根目录的 `index.html` 是在线检索页：按关键词、章节、证据等级和成本维度（花钱、花时间、要毅力）筛选条目，章节目录和术语表从本文件读取，条目正文从 `book/` 下的章节文件读取。在仓库设置里开启 GitHub Pages（Deploy from a branch，分支 main，目录 /）后即可访问。`tools/epub/` 是电子书生成脚本，在仓库根目录跑 `npm --prefix tools/epub ci && npm --prefix tools/epub run build` 在本地出一本 EPUB 到 `dist/`；本衍生仓库通过 GitHub Actions 手动生成并更新 Release。
 
 ## 正文
 
-正文按节拆成 34 个文件放在 [book/](book/)，点上面目录里的节名进入。拆开是因为单文件已经超过 GitHub 渲染 Markdown 的 512 KB 上限，后面的节显示不出来；[在线检索页](https://eternity4719.github.io/HowToLiveBetter/)会把这些文件合起来读，用法不变。
+正文按节拆成 34 个文件放在 [book/](book/)，点上面目录里的节名进入。拆开是因为单文件已经超过 GitHub 渲染 Markdown 的 512 KB 上限，后面的节显示不出来；[在线检索页](https://chenming7777.github.io/mylife-guide/)会把这些文件合起来读，用法不变。
 
 ## 许可
 
 正文用 [CC BY 4.0](LICENSE) 发布，范围是 book/、docs/ 和本 README 的文字。你可以转载、改编、商用，不用来问作者，但要做到三件事：
 
-- 写明出处：「高性价比人生指南」，附上仓库链接 https://github.com/eternity4719/HowToLiveBetter 。
+- 写明出处：「高性价比人生指南」，附上原始仓库链接 https://github.com/eternity4719/HowToLiveBetter 。
 - 附上许可证链接 https://creativecommons.org/licenses/by/4.0/ 。
 - 改过内容的要写明改过。书里的法条、补贴标准和截止日期经常更新，建议同时写上你同步的是哪一天的版本。
 
 代码用 [MIT](LICENSE-CODE)，范围是 tools/、skills/、index.html 和 .github/。
 
-## Star 走势
+## 原项目 Star 走势
 
 [![Star History Chart](https://api.star-history.com/svg?repos=eternity4719/HowToLiveBetter&type=Date)](https://star-history.com/#eternity4719/HowToLiveBetter&Date)
 
-## 赞赏
+## 赞赏原作者
 
 觉得有用，可以用微信扫码请作者喝杯咖啡。给不给都行，不影响任何内容。
 
@@ -338,6 +383,6 @@ A 级只说明「有具体数字、出处可核」，不说明这个数字一定
 
 <a href="https://4.mcyyy.com"><img src="ads/mcyyy.webp" alt="永恒世界 Minecraft 服务器，游戏地址 1.mcyyy.com" width="820"></a>
 
-## 商务合作
+## 原项目商务合作
 
 邮箱 [admin@mcyyy.com](mailto:admin@mcyyy.com)

@@ -6,8 +6,10 @@ import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-export const REPO = 'https://github.com/eternity4719/HowToLiveBetter';
-export const SITE = 'https://eternity4719.github.io/HowToLiveBetter/';
+export const REPO = 'https://github.com/chenming7777/mylife-guide';
+export const SITE = 'https://chenming7777.github.io/mylife-guide/';
+export const UPSTREAM_REPO = 'https://github.com/eternity4719/HowToLiveBetter';
+export const UPSTREAM_COMMIT = '36c78569a8d21f26c7c650d2993c7103832ca4b5';
 export const TITLE = '高性价比人生指南';
 export const RELEASE = `${REPO}/releases/download/epub-latest`;
 

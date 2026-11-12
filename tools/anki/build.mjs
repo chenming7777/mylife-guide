@@ -1,5 +1,5 @@
 // 把全书条目做成一副 Anki 牌组（.apkg），一条一张问答卡，按节分子牌组（issue #97）。
-// 用法：node tools/anki/build.mjs [输出路径]   默认输出 dist/HowToLiveBetter.apkg
+// 用法：node tools/anki/build.mjs [输出路径]   默认输出 dist/mylife-guide.apkg
 //
 // 卡片正面是节名和条目标题，背面是说人话、成本、性价比、收益量级、口径和证据等级，再给一个在线版链接。
 // 标题本身就是建议，所以正面不挖空；复习时回想的是「为什么值得做、代价多大」。
@@ -20,7 +20,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { zip } from '../lib/zip.mjs';
 import { ROOT, SITE, TITLE, read, readBook, COST_W, ratioOf, gitCommit, buildStamp } from '../lib/book.mjs';
 
-const OUT = resolve(ROOT, process.argv[2] ?? 'dist/HowToLiveBetter.apkg');
+const OUT = resolve(ROOT, process.argv[2] ?? 'dist/mylife-guide.apkg');
 const NOW = new Date();
 const NOW_S = Math.floor(NOW.getTime() / 1000);
 const NOW_MS = NOW.getTime();
